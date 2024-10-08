@@ -1,4 +1,4 @@
-package fr.lucasdupont.workshopepsi.model;
+package fr.lucasdupont.workshopepsi.model.addiction;
 
 import fr.lucasdupont.workshopepsi.entity.Addiction;
 import fr.lucasdupont.workshopepsi.entity.AddictionCategory;

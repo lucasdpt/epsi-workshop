@@ -1,4 +1,4 @@
-package fr.lucasdupont.workshopepsi.model;
+package fr.lucasdupont.workshopepsi.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,9 @@
 package fr.lucasdupont.workshopepsi.controller;
 
 import fr.lucasdupont.workshopepsi.exception.DataNotFoundException;
-import fr.lucasdupont.workshopepsi.model.CreateUserModel;
-import fr.lucasdupont.workshopepsi.model.LoginUserModel;
-import fr.lucasdupont.workshopepsi.model.UserModel;
+import fr.lucasdupont.workshopepsi.model.user.CreateUserModel;
+import fr.lucasdupont.workshopepsi.model.user.LoginUserModel;
+import fr.lucasdupont.workshopepsi.model.user.UserModel;
 import fr.lucasdupont.workshopepsi.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

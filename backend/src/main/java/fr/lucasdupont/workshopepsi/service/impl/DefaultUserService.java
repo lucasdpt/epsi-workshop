@@ -2,8 +2,8 @@ package fr.lucasdupont.workshopepsi.service.impl;
 
 import fr.lucasdupont.workshopepsi.entity.User;
 import fr.lucasdupont.workshopepsi.exception.DataNotFoundException;
-import fr.lucasdupont.workshopepsi.model.CreateUserModel;
-import fr.lucasdupont.workshopepsi.model.LoginUserModel;
+import fr.lucasdupont.workshopepsi.model.user.CreateUserModel;
+import fr.lucasdupont.workshopepsi.model.user.LoginUserModel;
 import fr.lucasdupont.workshopepsi.repository.UserRepository;
 import fr.lucasdupont.workshopepsi.security.JwtTokenProvider;
 import fr.lucasdupont.workshopepsi.service.UserService;

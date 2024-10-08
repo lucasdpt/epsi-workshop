@@ -1,4 +1,4 @@
-package fr.lucasdupont.workshopepsi.model;
+package fr.lucasdupont.workshopepsi.model.user;
 
 import fr.lucasdupont.workshopepsi.entity.User;
 import lombok.Data;

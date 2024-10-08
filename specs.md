@@ -43,15 +43,33 @@ Réponse code 200:
 ```
 
 ------------------------------------------
+**GET** - **/addictions**\
+Body:
+```json
+[
+  {
+    "categoryId": "string",
+    "label": "string",
+    "icon": "string",
+    "iconColor": "string",
+    "addictions": [
+      {
+        "id": "string",
+        "label": "string",
+        "addictionType": "AMOUNT | DELAY | UNKNOWN",
+        "categoryId": "string",
+        "scope": "integer"
+      }
+    ]
+  }
+]
+```
 
-Addiction:
-- Scope (1000 si system, 2000 si user)
-- Label
-- Type (DELAY / AMOUNT)
-
-UserAddiction:
-- userId
-- addictionId
-- currentValue
-- targetValue
-- 
+**POST** - **/addictions**\
+Body:
+```json
+{
+  "label": "string"
+}
+```
+------------------------------------------

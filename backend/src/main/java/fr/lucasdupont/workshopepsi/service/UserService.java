@@ -2,8 +2,8 @@ package fr.lucasdupont.workshopepsi.service;
 
 import fr.lucasdupont.workshopepsi.entity.User;
 import fr.lucasdupont.workshopepsi.exception.DataNotFoundException;
-import fr.lucasdupont.workshopepsi.model.CreateUserModel;
-import fr.lucasdupont.workshopepsi.model.LoginUserModel;
+import fr.lucasdupont.workshopepsi.model.user.CreateUserModel;
+import fr.lucasdupont.workshopepsi.model.user.LoginUserModel;
 
 public interface UserService {
 
