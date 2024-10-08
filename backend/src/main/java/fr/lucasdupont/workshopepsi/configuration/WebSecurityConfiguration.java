@@ -68,7 +68,7 @@ public class WebSecurityConfiguration {
 
         httpSecurity.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/user/login", "/user/register").permitAll();
-            authorize.anyRequest().authenticated();
+            authorize.anyRequest().permitAll();
         });
 
         httpSecurity.sessionManagement(sessionManagement -> {
