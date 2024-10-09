@@ -6,4 +6,5 @@ export default function SettingsScreen() {
       <Text>Settings Page</Text>
     </View>
   );
+  
 }
