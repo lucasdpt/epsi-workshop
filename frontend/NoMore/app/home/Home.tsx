@@ -1,17 +1,17 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import Background from '@/components/Background';
 import Card from '@/components/Card';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Background style={styles.background} />
+      <Background />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.cardsContainer}>
           <Card
             name="Alcool"
-            icon="creditcard"
+            icon="downhill-skiing"
             color="#FFC107"
             number={8}
             frequency="an"
@@ -20,7 +20,7 @@ export default function HomeScreen() {
           />
           <Card
             name="Alcool"
-            icon="creditcard"
+            icon="wine-bar"
             color="#34459D"
             number={5}
             frequency="semaine"
@@ -29,7 +29,7 @@ export default function HomeScreen() {
           />
           <Card
             name="Cocaine"
-            icon="creditcard"
+            icon="apple"
             color="#FF5733"
             number={5}
             frequency="jour"
@@ -38,7 +38,7 @@ export default function HomeScreen() {
           />
           <Card
             name="LSD"
-            icon="creditcard"
+            icon="apple"
             color="#33FF57"
             number={4}
             frequency="mois"
@@ -47,7 +47,7 @@ export default function HomeScreen() {
           />
           <Card
             name="Réseaux sociaux"
-            icon="creditcard"
+            icon="apple"
             color="#3357FF"
             number={790}
             frequency="semaine"
@@ -56,7 +56,7 @@ export default function HomeScreen() {
           />
           <Card
             name="Cigarette"
-            icon="creditcard"
+            icon="apple"
             color="#FF33A1"
             number={1}
             frequency="jour"
@@ -65,7 +65,7 @@ export default function HomeScreen() {
           />
           <Card
             name="Fastfood"
-            icon="creditcard"
+            icon="apple"
             color="#A133FF"
             number={8}
             frequency="jour"
@@ -73,14 +73,40 @@ export default function HomeScreen() {
             objective={8}
           />
         </View>
-      </ScrollView>
-    </View>
+        <View style={[styles.card, { backgroundColor: "#001427" }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 2, justifyContent: 'space-between' }}>
+            <Text style={[styles.name, { color: "white" }]}>Ajouter une addiction</Text>
+            <Icon name="add-circle-outline" size={40} color="white" style={{ alignSelf: 'center' }} />
+          </View>
+        </View>
+      </ScrollView >
+    </View >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  card: {
+    padding: 20,
+    margin: 10,
+    width: "90%",
+    borderRadius: 10,
+    alignSelf: 'center',
+    alignContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  name: {
+    fontSize: 26,
+    fontFamily: 'Roboto_700Bold',
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   background: {
     position: 'absolute',

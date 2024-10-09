@@ -33,11 +33,14 @@ const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times
 
   return (
     <View style={[styles.card, { backgroundColor: color }]}>
-      <Icon name={icon} size={50} color="#00000080" />
-      <Text style={[styles.name, { color: textColor }]}>{name}</Text>
-      <Text style={[styles.number, { color: textColor }]}>{numbertime} {freq}</Text>
-      <Text style={[styles.objective, { color: textColor }]}>Objectif :</Text>
-      <Text style={[styles.obj, { color: textColor }]}>Moins de {objectivetime} par {frequency}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 2 }}>
+        <Icon name={icon} size={50} color={textColor} style={{marginRight : 5}} />
+        <Text style={[styles.name, { color: textColor }]}>{name}</Text>
+      </View>
+      <View style={{ width: '100%',marginBottom: 15, height: 1, backgroundColor: textColor, alignSelf: 'center', marginVertical: 10 }} />
+      <Text style={[styles.number, { color: textColor,marginBottom: 10 }]}>{numbertime} {freq}</Text>
+      <Text style={[styles.objective, { color: textColor,marginBottom: 5 }]}>Objectif :</Text>
+      <Text style={[styles.obj, { color: textColor, marginBottom: 10 }]}>Moins de {objectivetime} par {frequency}</Text>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   name: {
-    fontSize: 32,
+    fontSize: 30,
     fontFamily: 'Roboto_700Bold',
     fontWeight: 'bold',
   },
