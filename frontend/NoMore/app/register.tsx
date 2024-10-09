@@ -3,6 +3,8 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Text, Button, useTheme } from 'react-native-paper';
 import { Link, useRouter } from 'expo-router';
 import FormInput from '@/components/FormInput';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Background from '@/components/Background';
 
 export default function Login() {
   const router = useRouter();
@@ -17,43 +19,42 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('@/assets/images/LogoNoMore.png')}
-        style={styles.backgroundImage}
-      />
-      <Text style={styles.title}>S'enregistrer</Text>
-      <FormInput
-        style={styles.input}
-        title="Nom d'utilisateur"
-        icon={{ name: "person", width: 27, height: 27 }}
-        onChangeText={setUsername}
-      />
-      <FormInput
-        style={styles.input}
-        title="Email"
-        secure={true}
-        icon={{ name: "email", width: 27, height: 27 }}
-        onChangeText={setEmail}
-      />
-      <FormInput
-        style={styles.input}
-        title="Mot de passe"
-        secure={true}
-        icon={{ name: "lock", width: 27, height: 27 }}
-        onChangeText={setPassword}
-      />
-      <Button
-        mode="contained"
-        onPress={handleLogin}
-        style={styles.button}
-        labelStyle={styles.buttonText}
-      >
-        Valider
-      </Button>
-      <Link href="/login" style={styles.link}>Vous avez déjà un compte ?
-      Connectez-vous ici</Link>
-    </View>
+    <GestureHandlerRootView>
+      <View style={styles.container}>
+        <Background />
+        <Text style={styles.title}>S'enregistrer</Text>
+        <FormInput
+          style={styles.input}
+          title="Nom d'utilisateur"
+          icon={{ name: "person", width: 27, height: 27 }}
+          onChangeText={setUsername}
+        />
+        <FormInput
+          style={styles.input}
+          title="Email"
+          secure={true}
+          icon={{ name: "email", width: 27, height: 27 }}
+          onChangeText={setEmail}
+        />
+        <FormInput
+          style={styles.input}
+          title="Mot de passe"
+          secure={true}
+          icon={{ name: "lock", width: 27, height: 27 }}
+          onChangeText={setPassword}
+        />
+        <Button
+          mode="contained"
+          onPress={handleLogin}
+          style={styles.button}
+          labelStyle={styles.buttonText}
+        >
+          Valider
+        </Button>
+        <Link href="/login" style={styles.link}>Vous avez déjà un compte ?
+          Connectez-vous ici</Link>
+      </View>
+    </GestureHandlerRootView>
   );
 }
 
@@ -78,16 +79,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     width: '80%',
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 600, 
-    height: 600, 
-    opacity: 0.2,
-    transform: [{ translateX: -120 }, { translateY: -130 }], 
-    zIndex: -1, 
-  },
   button: {
     marginBottom: 20,
     marginTop: 60,
@@ -100,6 +91,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'Roboto_700Bold',
+    paddingTop: 10,
+    color: '#FFF',
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
