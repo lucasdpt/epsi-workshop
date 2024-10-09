@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Detail from '@/app/detail';
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface CardProps {
   color: string;
@@ -24,6 +28,26 @@ const isColorLight = (color: string): boolean => {
 const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times, objective }) => {
   const [count, setCount] = useState(number);
   const textColor = isColorLight(color) ? '#001427' : 'white';
+  const router = useRouter();
+
+  const handlePress = async () => {
+    const data = {
+      color,
+      icon,
+      name,
+      number: count,
+      frequency,
+      times,
+      objective,
+    };
+  
+    try {
+      await AsyncStorage.setItem('detailData', JSON.stringify(data));
+      router.push('/detail');
+    } catch (error) {
+      console.error('Failed to save data to AsyncStorage', error);
+    }
+  };
 
   const numbertime = count + " " + times + (count > 1 && times !== "fois" ? 's' : '');
   const objectivetime = objective + " " + times + (objective > 1 && times === "heure" ? 's' : '');
@@ -32,7 +56,7 @@ const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times
                 : frequency === "mois" ? "ce mois" : "cette année");
 
   return (
-    <View style={[styles.card, { backgroundColor: color }]}>
+    <TouchableOpacity style={[styles.card, { backgroundColor: color }]} onPress={handlePress}>
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 2 }}>
         <Icon name={icon} size={50} color={textColor} style={{marginRight : 5}} />
         <Text style={[styles.name, { color: textColor }]}>{name}</Text>
@@ -40,7 +64,7 @@ const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times
       <View style={{ width: '100%',marginBottom: 15, height: 1, backgroundColor: textColor, alignSelf: 'center', marginVertical: 10 }} />
       <Text style={[styles.number, { color: textColor,marginBottom: 10 }]}>{numbertime} {freq}</Text>
       <Text style={[styles.objective, { color: textColor,marginBottom: 5 }]}>Objectif :</Text>
-      <Text style={[styles.obj, { color: textColor, marginBottom: 10 }]}>Moins de {objectivetime} par {frequency}</Text>
+      <Text style={[styles.obj, { color: textColor, marginBottom: 1 }]}>Moins de {objectivetime} par {frequency}</Text>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
@@ -56,7 +80,7 @@ const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times
           <Text style={styles.buttonText}>-</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

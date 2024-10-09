@@ -23,11 +23,11 @@ export default function AccountScreen() {
   };
 
   const handleDeleteAccount = () => {
-    router.push('/login');
+    router.push('/register');
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', width: "100%" }}>
+    <View style={{ flex: 1, alignItems: 'center', width: "100%", justifyContent : 'center' }}>
       <Background />
       <View style={styles.profilePictureContainer}>
         <Image
@@ -47,6 +47,7 @@ export default function AccountScreen() {
           username === data.username && email === data.email && styles.disabledButton,
         ]}
         disabled={username === data.username && email === data.email}
+        labelStyle={styles.buttonText}
       >
         Apply changes
       </Button>
@@ -66,8 +67,8 @@ export default function AccountScreen() {
 
 const styles = StyleSheet.create({
   profilePictureContainer: {
-    width: 160,
-    height: 160,
+    width: 110,
+    height: 110,
     borderRadius: 180,
     backgroundColor: 'white',
     justifyContent: 'center',
@@ -95,12 +96,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     backgroundColor: '#001427',
   },
+  buttonText : {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   disabledButton: {
     backgroundColor: 'gray',
   },
   profilePicture: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
     borderRadius: 70,
   },
 });
