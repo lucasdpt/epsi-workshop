@@ -3,8 +3,10 @@ package fr.lucasdupont.workshopepsi.controller;
 import fr.lucasdupont.workshopepsi.exception.DataNotFoundException;
 import fr.lucasdupont.workshopepsi.model.addiction.AddictionCategoryModel;
 import fr.lucasdupont.workshopepsi.model.addiction.CreateAddictionModel;
+import fr.lucasdupont.workshopepsi.model.addiction.UserAddictionModel;
 import fr.lucasdupont.workshopepsi.service.AddictionService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,11 @@ public class AddictionsController {
     public ResponseEntity<Void> addAddiction(@RequestBody CreateAddictionModel createAddictionModel) throws DataNotFoundException {
         addictionService.addAddictionForUser(createAddictionModel);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<UserAddictionModel>> getMyAddictions() throws DataNotFoundException {
+        return ResponseEntity.ok(addictionService.getAddictionsForUser());
     }
 
 }

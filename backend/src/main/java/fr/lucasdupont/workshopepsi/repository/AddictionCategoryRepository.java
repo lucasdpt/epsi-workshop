@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface AddictionCategoryRepository extends MongoRepository<AddictionCategory, String> {
 
+    Optional<AddictionCategory> findByCategoryId(String categoryId);
+
     Optional<AddictionCategory> findByLabel(String label);
 
 }

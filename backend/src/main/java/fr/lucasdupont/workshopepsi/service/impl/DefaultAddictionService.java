@@ -2,17 +2,21 @@ package fr.lucasdupont.workshopepsi.service.impl;
 
 import fr.lucasdupont.workshopepsi.entity.Addiction;
 import fr.lucasdupont.workshopepsi.entity.AddictionCategory;
+import fr.lucasdupont.workshopepsi.entity.UserAddiction;
 import fr.lucasdupont.workshopepsi.exception.DataNotFoundException;
 import fr.lucasdupont.workshopepsi.model.addiction.AddictionCategoryModel;
 import fr.lucasdupont.workshopepsi.model.addiction.CreateAddictionModel;
+import fr.lucasdupont.workshopepsi.model.addiction.UserAddictionModel;
 import fr.lucasdupont.workshopepsi.repository.AddictionCategoryRepository;
 import fr.lucasdupont.workshopepsi.repository.AddictionRepository;
+import fr.lucasdupont.workshopepsi.repository.UserAddictionRepository;
 import fr.lucasdupont.workshopepsi.service.AddictionService;
 import fr.lucasdupont.workshopepsi.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DefaultAddictionService implements AddictionService {
@@ -21,20 +25,23 @@ public class DefaultAddictionService implements AddictionService {
 
     private final AddictionRepository addictionRepository;
 
+    private final UserAddictionRepository userAddictionRepository;
+
     private final UserService userService;
 
     private final String otherCategoryId;
 
-    public DefaultAddictionService(AddictionCategoryRepository addictionCategoryRepository, AddictionRepository addictionRepository, UserService userService) {
+    public DefaultAddictionService(AddictionCategoryRepository addictionCategoryRepository, AddictionRepository addictionRepository, UserAddictionRepository userAddictionRepository, UserService userService) {
         this.addictionCategoryRepository = addictionCategoryRepository;
         this.addictionRepository = addictionRepository;
+        this.userAddictionRepository = userAddictionRepository;
         this.userService = userService;
 
-        AddictionCategory soiree = addictionCategoryRepository.findByLabel("Soirée").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Soirée", "beer", "#FFD700")));
+        AddictionCategory soiree = addictionCategoryRepository.findByLabel("Soirée").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Soirée", "wine-bar", "#FFD700")));
         AddictionCategory moneyGames = addictionCategoryRepository.findByLabel("Jeux d'argent").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Jeux d'argent", "casino", "#FF4500")));
-        AddictionCategory social = addictionCategoryRepository.findByLabel("Social").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Social", "users", "#00BFFF")));
-        AddictionCategory drugs = addictionCategoryRepository.findByLabel("Drogues").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Drogues", "syringe", "#FF0000")));
-        AddictionCategory food = addictionCategoryRepository.findByLabel("Nourriture").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Nourriture", "utensils", "#32CD32")));
+        AddictionCategory social = addictionCategoryRepository.findByLabel("Social").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Social", "tv", "#00BFFF")));
+        AddictionCategory drugs = addictionCategoryRepository.findByLabel("Drogues").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Drogues", "pills", "#FF0000")));
+        AddictionCategory food = addictionCategoryRepository.findByLabel("Nourriture").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Nourriture", "hamburger", "#32CD32")));
         AddictionCategory other = addictionCategoryRepository.findByLabel("Autres").orElseGet(() -> addictionCategoryRepository.save(new AddictionCategory("Autres", "question", "#808080")));
         otherCategoryId = other.getCategoryId();
 
@@ -85,6 +92,30 @@ public class DefaultAddictionService implements AddictionService {
         addiction.setAddictionType(Addiction.AddictionType.UNKNOWN);
         addiction.setCategoryId(otherCategoryId);
         addictionRepository.save(addiction);
+    }
+
+    @Override
+    public List<UserAddictionModel> getAddictionsForUser() throws DataNotFoundException {
+        List<UserAddiction> userAddictions = userAddictionRepository.findAllByUserId(userService.currentUser().getId());
+        List<UserAddictionModel> models = new ArrayList<>();
+
+        for (UserAddiction userAddiction : userAddictions) {
+            Optional<Addiction> addiction = addictionRepository.findById(userAddiction.getAddictionId());
+            Optional<AddictionCategory> category = addictionCategoryRepository.findById(addiction.get().getCategoryId());
+            models.add(UserAddictionModel.fromEntities(addiction.get(), category.get(), userAddiction));
+        }
+
+        return models;
+    }
+
+    @Override
+    public void addAddictionToUser(String addictionId) throws DataNotFoundException {
+        UserAddiction userAddiction = new UserAddiction();
+        userAddiction.setUserId(userService.currentUser().getId());
+
+        Addiction addiction = addictionRepository.findById(addictionId).orElseThrow(() -> new DataNotFoundException("Addiction not found"));
+        userAddiction.setAddictionId(addiction.getId());
+        userAddictionRepository.save(userAddiction);
     }
 
 }
