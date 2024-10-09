@@ -1,8 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface CardProps {
   color: string;
+  icon: string;
   name: string;
   number: number;
   frequency: string;
@@ -10,14 +12,47 @@ interface CardProps {
   objective: number;
 }
 
-const Card: React.FC<CardProps> = ({ color, name, number, frequency, times, objective }) => {
+const isColorLight = (color: string): boolean => {
+  const hex = color.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 155;
+};
+
+const Card: React.FC<CardProps> = ({ color, icon, name, number, frequency, times, objective }) => {
+  const [count, setCount] = useState(number);
+  const textColor = isColorLight(color) ? '#001427' : 'white';
+
+  const numbertime = count + " " + times + (count > 1 && times !== "fois" ? 's' : '');
+  const objectivetime = objective + " " + times + (objective > 1 && times === "heure" ? 's' : '');
+  const freq = (frequency === "jour" ? "aujourd'hui"
+                : frequency === "semaine" ? "cette semaine"
+                : frequency === "mois" ? "ce mois" : "cette année");
+
   return (
     <View style={[styles.card, { backgroundColor: color }]}>
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.number}>Number: {number}</Text>
-      <Text style={styles.frequency}>Frequency: {frequency}</Text>
-      <Text style={styles.times}>Times: {times}</Text>
-      <Text style={styles.objective}>Objective: {objective}</Text>
+      <Icon name={icon} size={50} color="#00000080" />
+      <Text style={[styles.name, { color: textColor }]}>{name}</Text>
+      <Text style={[styles.number, { color: textColor }]}>{numbertime} {freq}</Text>
+      <Text style={[styles.objective, { color: textColor }]}>Objectif :</Text>
+      <Text style={[styles.obj, { color: textColor }]}>Moins de {objectivetime} par {frequency}</Text>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
+          style={[styles.button, styles.positiveButton]} 
+          onPress={() => setCount(count + 1)}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.button, styles.negativeButton]} 
+          onPress={() => setCount(count > 0 ? count - 1 : 0)}
+        >
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -26,6 +61,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     margin: 10,
+    width: "90%",
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -34,20 +70,57 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   name: {
-    fontSize: 20,
+    fontSize: 32,
+    fontFamily: 'Roboto_700Bold',
     fontWeight: 'bold',
   },
   number: {
-    fontSize: 16,
+    fontSize: 24,
+    fontFamily: 'Roboto_700Bold',
+    fontWeight: 'bold',
   },
-  frequency: {
+  obj: {
     fontSize: 16,
-  },
-  times: {
-    fontSize: 16,
+    fontFamily: 'Roboto_400Regular',
+    fontWeight: 'normal',
   },
   objective: {
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: 'Roboto_400Regular',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: "100%",
+    marginTop: 15,
+  },
+  button: {
+    padding: 15,
+    width: 100, // Ajuster la taille si besoin
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  positiveButton: {
+    backgroundColor: '#38DB52', // Couleur du bouton +
+    borderBottomLeftRadius : 12,
+    borderTopLeftRadius : 12,
+    borderBottomRightRadius : 0,
+    borderTopRightRadius : 0,
+    width: "50%",
+  },
+  negativeButton: {
+    backgroundColor: '#FF1111', // Couleur du bouton -
+    width: "50%",
+    borderBottomLeftRadius : 0,
+    borderTopLeftRadius : 0,
+    borderBottomRightRadius : 12,
+    borderTopRightRadius : 12,
+
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 24,
   },
 });
 
