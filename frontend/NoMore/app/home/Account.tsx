@@ -1,10 +1,10 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { useState } from 'react';
 import { Button } from "react-native-paper";
 import Background from '@/components/Background';
 import { StyleSheet } from 'react-native';
 import ProfileForm from '@/components/ProfileForm';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
 
 const data = { loginWithService: false, passwordLength: 8, username: "user6767", email: "test@test.ts" }
@@ -27,40 +27,42 @@ export default function AccountScreen() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', width: "100%", justifyContent : 'center' }}>
-      <Background />
-      <View style={styles.profilePictureContainer}>
-        <Image
-          source={require('@/assets/images/ProfilePicture.svg')}
-          style={styles.profilePicture}
-        />
-      </View>
-      <Text style={styles.username}>
-        {data.username}
-      </Text>
-      <ProfileForm data={data} />
-      <Button
-        mode="contained"
-        onPress={handlePress}
-        style={[
-          styles.button,
-          username === data.username && email === data.email && styles.disabledButton,
-        ]}
-        disabled={username === data.username && email === data.email}
-        labelStyle={styles.buttonText}
-      >
-        Apply changes
-      </Button>
-      <TouchableOpacity onPress={handleLogout} style={{ alignSelf: 'flex-start'}}>
-        <Text style={styles.textbtn}>
-          Se déconnecter
+    <View style={{ flex: 1 }}>
+      <Background style={StyleSheet.absoluteFillObject} />
+      <ScrollView contentContainerStyle={{ alignItems: 'center', width: "100%", justifyContent: 'center' }}>
+        <View style={styles.profilePictureContainer}>
+          <Image
+            source={require('@/assets/images/ProfilePicture.svg')}
+            style={styles.profilePicture}
+          />
+        </View>
+        <Text style={styles.username}>
+          {data.username}
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleDeleteAccount} style={{ alignSelf: 'flex-start'}}>
-        <Text style={styles.textbtn}>
-          Supprimer mon compte
-        </Text>
-      </TouchableOpacity>
+        <ProfileForm data={data} />
+        <Button
+          mode="contained"
+          onPress={handlePress}
+          style={[
+            styles.button,
+            username === data.username && email === data.email && styles.disabledButton,
+          ]}
+          disabled={username === data.username && email === data.email}
+          labelStyle={styles.buttonText}
+        >
+          Apply changes
+        </Button>
+        <TouchableOpacity onPress={handleLogout} style={{ alignSelf: 'flex-start' }}>
+          <Text style={styles.textbtn}>
+            Se déconnecter
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleDeleteAccount} style={{ alignSelf: 'flex-start' }}>
+          <Text style={styles.textbtn}>
+            Supprimer mon compte
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     backgroundColor: '#001427',
   },
-  buttonText : {
+  buttonText: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
